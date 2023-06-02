@@ -12,7 +12,7 @@ If you're looking for a high-quality and visually appealing, feature-rich Next.j
 - Dark and Light Version
 and Much More ...
 
-### [🚀 View Demo](https://startup.nextjstemplates.com/)
+<!-- ### [🚀 View Demo](https://startup.nextjstemplates.com/)
 
 ### [📦 Download](https://nextjstemplates.com/templates/startup)
 
@@ -29,4 +29,4 @@ and Much More ...
 Startup is 100% free and open-source, feel free to use with your personal and commercial projects.
 
 ### 💜 Support
-If you like the template, please star this repository to inspire the team to create more stuff like this and reach more users like you!
+If you like the template, please star this repository to inspire the team to create more stuff like this and reach more users like you! -->
