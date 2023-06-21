@@ -26,7 +26,6 @@ const SignupPage = () => {
           });
           setUser(initialUser);
           router.push("/about");
-          alert('hiiiiiii');
         }
       }
     } catch (error) {
