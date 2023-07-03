@@ -1,28 +1,26 @@
-"use client";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import axios from "axios";
-// import { GetServerSideProps } from "next";
-import { useEffect, useState } from "react";
+// import axios from "axios";
+// import { useEffect, useState } from "react";
 
 const Product = (props) => {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("responseData"); 
-      try {
-        const response = await axios.get("http://localhost:1337/api/products?populate=*");
-        if (response) {
-          setData(response.data);
-          console.log(response.data, "responseData"); 
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchData();
-  }, []);
-  console.log(data, "Data"); 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     console.log("responseData");
+  //     try {
+  //       const response = await axios.get("http://localhost:1337/api/products?populate=*");
+  //       if (response) {
+  //         setData(response.data);
+  //         console.log(response.data, "responseData");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+  // console.log(data, "Data");
   return (
     <>
       <Breadcrumb
@@ -37,45 +35,44 @@ const Product = (props) => {
             {props.name}
           </div>
           <div className="-mx-4 flex flex-wrap justify-center">
-            {data.data && data.data.map((prod) => {
-              return (
-                <div
-                  key={prod.id}
-                  className="border-gray-200 w-full shadow-xl max-w-sm m-2 rounded-lg border"
-                >
-                  <a href="#">
-                    <img
-                      className="rounded-t-lg p-4"
-                      // src={prod.attributes.image.data && prod.attributes.image.data.attributes.formats.small.url}
-                      alt="product image"
-                    />
-                  </a>
-                  <div className="px-5 pb-5">
-                    <a href="#">
-                      <h5 className="text-gray-900 text-2xl font-semibold tracking-tight dark:text-white ">
-                        {prod.attributes.title}
-                      </h5>
-                    </a>
-                    <div className="mt-2.5 mb-5 flex items-center">
-                      <p className="text-gray-900 text-l  tracking-tight dark:text-white ">
-                        {prod.attributes.description}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-900 text-xl font-bold">
-                      PKR/- {prod.attributes.price}
-                      </span>
-                      <a
-                        href="#0"
-                        className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                      >
-                        ADD TO CART
-                      </a>
-                    </div>
-                  </div>
+            {/* {data.data && data.data.map((prod) => { */}
+            <div
+              key={props.id}
+              className="border-gray-200 m-2 w-full max-w-sm rounded-lg border shadow-xl"
+            >
+              <a href="#">
+                <img
+                  className="rounded-t-lg p-4"
+                  // src={prod.attributes.image.data && prod.attributes.image.data.attributes.formats.small.url}
+                  alt="Product image"
+                />
+              </a>
+              <div className="px-5 pb-5">
+                <a href="#">
+                  <h5 className="text-gray-900 text-2xl font-semibold tracking-tight dark:text-white ">
+                    {/* {prod.attributes.title} */}
+                    Title: {props.name}
+                  </h5>
+                </a>
+                <div className="mt-2.5 mb-5 flex items-center">
+                  <p className="text-gray-900 text-l  tracking-tight dark:text-white ">
+                    Description: {/* {prod.attributes.description} */}
+                  </p>
                 </div>
-              );
-            })}
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-900 text-xl font-bold">
+                    Price:{/* PKR/- {prod.attributes.price} */}
+                  </span>
+                  <a
+                    href="#0"
+                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
+                  >
+                    ADD TO CART
+                  </a>
+                </div>
+              </div>
+            </div>
+            {/* })} */}
           </div>
           {/* pagination Buttons */}
           <div
@@ -146,18 +143,8 @@ const Product = (props) => {
   );
 };
 
-// export async function getServerSideProps(context) {
-// //   // let headers = {
-// //   //   Authorization:
-// //   //     "Bearer 5a48e6f7f8d404c0973a89dd0b86ba234d24f211e0d0c039a9b4b2f898e4845a42865eef38a2a4a45bfb1b7d2a4ca9f3ef369320209bd2e32c4e8e562a4b339f4fe4bcc09ecfdc6c4b92ab2c05e60582e7b67661448d8802b90d1c60d3fb95efb8dcab6e5c1234f56ebacf1f1034634ee6c67b46f823f8b399b851084771d4f8",
-// //   // };
-// //   // let res = await fetch("http://localhost:1337/api/products?populate=*", {
-// //   //   headers: headers,
-// //   // });
-// //   // let products = await res.json();
-// //   // console.log(products);
-// console.log("ghhhhhhhhhhhhhhhhhhhhhhhh")
-//   return { props: { name: "Ahmad" } };
-// }
+export async function getServerSideProps(context) {
+  return { props: { name: "Ahmad" } };
+}
 
 export default Product;
