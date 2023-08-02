@@ -1,18 +1,53 @@
+"use client"
 import Breadcrumb from "@/components/Common/Breadcrumb";
-// import axios from "axios";
-// import { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-const Product = (props) => {
+
+const getproducts = async () => {
+  const productsData = await fetch(
+    "http://localhost:1337/api/products?populate=*",
+    { cache: "no-store" }
+  );
+  return productsData.json();
+}
+
+
+export default function Product() {
+  const [products, setProducts] = useState([]);
+
+const router = useRouter();
+
+useEffect(() => {
+  const getProducts = async () => {
+    const productsData = await fetch(
+      "http://localhost:1337/api/products?populate=*",
+      { cache: "no-store" }
+    );
+    const productsJson = await productsData.json();
+    // console.log(productsJson, "aaddaaddadadad");
+    setProducts(productsJson.data);
+  };
+  getProducts();
+}, []);
+
+  // const products = await getproducts();
+  // console.log(products, "products");
+
+
   // const [data, setData] = useState([]);
+  // const [currentPage, setCurrentPage] = useState(1);
 
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     console.log("responseData");
   //     try {
-  //       const response = await axios.get("http://localhost:1337/api/products?populate=*");
+  //       const response = await axios.get(
+  //         "http://localhost:1337/api/products?populate=*"
+  //       );
   //       if (response) {
-  //         setData(response.data);
-  //         console.log(response.data, "responseData");
+  //         setData(response.data.data);
+  //         setIsData(true);
   //       }
   //     } catch (error) {
   //       console.error("Error:", error);
@@ -21,6 +56,29 @@ const Product = (props) => {
   //   fetchData();
   // }, []);
   // console.log(data, "Data");
+
+  // Paginaton.......
+  // const recordsPerPage = 6;
+  // const lastIndex = currentPage * recordsPerPage;
+  // const firstIndex = lastIndex - recordsPerPage;
+  // const records = data.slice(firstIndex, lastIndex);
+  // const totalpages = Math.ceil(data.length / recordsPerPage);
+  // const numbers = [...Array(totalpages + 1).keys()].slice(1);
+
+  // const prePage = () => {
+  //   if (currentPage !== 1) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // };
+  // const nextPage = () => {
+  //   if (currentPage !== lastIndex) {
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // };
+  // const changeCurrentPage = (id) => {
+  //   setCurrentPage(id);
+  // };
+
   return (
     <>
       <Breadcrumb
@@ -32,119 +90,117 @@ const Product = (props) => {
       <section className="pt-[120px] pb-[120px]">
         <div className="container">
           <div className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3">
-            {props.name}
+            {products.id}
           </div>
           <div className="-mx-4 flex flex-wrap justify-center">
-            {/* {data.data && data.data.map((prod) => { */}
-            <div
-              key={props.id}
-              className="border-gray-200 m-2 w-full max-w-sm rounded-lg border shadow-xl"
-            >
-              <a href="#">
-                <img
-                  className="rounded-t-lg p-4"
-                  // src={prod.attributes.image.data && prod.attributes.image.data.attributes.formats.small.url}
-                  alt="Product image"
-                />
-              </a>
-              <div className="px-5 pb-5">
-                <a href="#">
-                  <h5 className="text-gray-900 text-2xl font-semibold tracking-tight dark:text-white ">
-                    {/* {prod.attributes.title} */}
-                    Title: {props.name}
-                  </h5>
-                </a>
-                <div className="mt-2.5 mb-5 flex items-center">
-                  <p className="text-gray-900 text-l  tracking-tight dark:text-white ">
-                    Description: {/* {prod.attributes.description} */}
-                  </p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-900 text-xl font-bold">
-                    Price:{/* PKR/- {prod.attributes.price} */}
-                  </span>
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    ADD TO CART
+            {products &&
+              products.map((prod) => (
+                <div
+                  key={prod.id}
+                  className="border-gray-300 m-2 h-fit w-full max-w-sm flex-grow space-y-6 rounded-lg shadow-2xl"
+                >
+                  <a href="#">
+                    <img
+                      className="rounded-t-lg p-4"
+                      src={
+                        prod.attributes.image.data[0].attributes &&
+                        `http://localhost:1337${prod.attributes.image.data[0].attributes.url}`
+                      }
+                      alt="Product image"
+                    />
                   </a>
+                  <div className="px-5 pb-5">
+                    <a href="#">
+                      <h5 className="text-gray-900 text-2xl font-semibold tracking-tight dark:text-white ">
+                        {prod.attributes.title}
+                      </h5>
+                    </a>
+                    <div className="mt-2.5 mb-5 flex items-center">
+                      <p className="text-gray-900 text-l  tracking-tight dark:text-white ">
+                        {prod.attributes.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-900 text-xl font-bold">
+                        PKR/- {prod.attributes.price}
+                      </span>
+                    </div>
+                    <div className="mt-5 flex items-center justify-end">
+                      {/* <a
+                        href="#0"
+                        className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
+                      >
+                        ADD TO CART
+                      </a> */}
+                      <a
+                        // href={`/product/${prod.id}`}
+                        className="flex h-9 min-w-[36px] w-32 items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
+                        onClick={()=>router.push(`/product/${prod.id}`)}
+                      >
+                        BUY
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* })} */}
+              ))}
           </div>
           {/* pagination Buttons */}
           <div
             className="wow fadeInUp -mx-4 flex flex-wrap"
             data-wow-delay=".15s"
           >
-            <div className="w-full px-4">
+            {/* <div className="w-full px-4">
               <ul className="flex items-center justify-center pt-8">
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
+                {currentPage > 1 ? (
+                  <li className="mx-1">
+                    <a
+                      href="#0"
+                      className={`flex h-9 min-w-[36px] items-center ${
+                        currentPage > 1 ? "disabled" : "disabled"
+                      }} justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white`}
+                      onClick={prePage}
+                      disabled
+                    >
+                      Prev
+                    </a>
+                  </li>
+                ) : (
+                  ""
+                )}
+                {numbers.map((num, i) => (
+                  <li
+                    className={`mx-1 ${
+                      currentPage === num ? "bg-primary text-white" : ""
+                    }  rounded-md`}
+                    key={i}
                   >
-                    Prev
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    1
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    2
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    3
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a className="flex h-9 min-w-[36px] cursor-not-allowed items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color">
-                    ...
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    12
-                  </a>
-                </li>
-                <li className="mx-1">
-                  <a
-                    href="#0"
-                    className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
-                  >
-                    Next
-                  </a>
-                </li>
+                    <a
+                      href="#0"
+                      className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition"
+                      onClick={() => changeCurrentPage(num)}
+                    >
+                      {num}
+                    </a>
+                  </li>
+                ))}
+                {totalpages > 1 && currentPage < totalpages && (
+                  <li className="mx-1">
+                    <a
+                      href="#0"
+                      className="flex h-9 min-w-[36px] items-center justify-center rounded-md bg-body-color bg-opacity-[15%] px-4 text-sm text-body-color transition hover:bg-primary hover:bg-opacity-100 hover:text-white"
+                      onClick={nextPage}
+                    >
+                      Next
+                    </a>
+                  </li>
+                )}
               </ul>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
     </>
   );
-};
-
-export async function getServerSideProps(context) {
-  return { props: { name: "Ahmad" } };
 }
 
-export default Product;
+

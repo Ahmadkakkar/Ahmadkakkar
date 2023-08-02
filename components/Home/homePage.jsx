@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-
 const Homepage = () => {
   return (
     <>
@@ -16,10 +15,17 @@ const Homepage = () => {
                 data-wow-delay=".2s"
               >
                 <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
-                Discover a World of Shopping at Your Fingertips with " Online Shop".
+                  Discover a World of Shopping at Your Fingertips with " Online
+                  Shop".
                 </h1>
                 <p className="mb-12 text-base font-medium !leading-relaxed text-body-color dark:text-white dark:opacity-90 sm:text-lg md:text-xl">
-                "Online Shop" is an online shopping destination that offers a wide range of high-quality products, from fashion. Our website is user-friendly and easy to navigate, allowing you to browse and purchase products with ease. We prioritize customer satisfaction, offering a hassle-free shopping experience with fast and reliable shipping, easy returns, and responsive customer support. Shop with confidence at "Online Shop".
+                  "Online Shop" is an online shopping destination that offers a
+                  wide range of high-quality products, from fashion. Our website
+                  is user-friendly and easy to navigate, allowing you to browse
+                  and purchase products with ease. We prioritize customer
+                  satisfaction, offering a hassle-free shopping experience with
+                  fast and reliable shipping, easy returns, and responsive
+                  customer support. Shop with confidence at "Online Shop".
                 </p>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
@@ -39,7 +45,7 @@ const Homepage = () => {
             </div>
           </div>
         </div>
-        {/* <div className="absolute top-0 right-0 z-[-1] opacity-30 lg:opacity-100">
+        <div className="absolute top-0 right-0 z-[-1] opacity-30 lg:opacity-100">
           <svg
             width="450"
             height="556"
@@ -279,7 +285,7 @@ const Homepage = () => {
               </radialGradient>
             </defs>
           </svg>
-        </div> */}
+        </div>
       </section>
     </>
   );

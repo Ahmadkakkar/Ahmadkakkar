@@ -4,8 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
+import { useRecoilState } from "recoil";
+import { cartState } from "@/atoms/cartState";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+   
+  const router = useRouter();
+  const [cartItem]= useRecoilState(cartState)
+
+
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -42,7 +50,8 @@ const Header = () => {
           sticky
             ? "!fixed !z-[9999] !bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm !transition dark:!bg-primary dark:!bg-opacity-20"
             : "absolute"
-        }`}>
+        }`}
+      >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
             {/* <div className="w-60 max-w-full px-4 xl:mr-12">
@@ -73,7 +82,8 @@ const Header = () => {
                   onClick={navbarToggleHandler}
                   id="navbarToggler"
                   aria-label="Mobile Menu"
-                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden">
+                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+                >
                   <span
                     className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
                       navbarOpen ? " top-[7px] rotate-45" : " "
@@ -96,21 +106,24 @@ const Header = () => {
                     navbarOpen
                       ? "visibility top-full opacity-100"
                       : "invisible top-[120%] opacity-0"
-                  }`}>
+                  }`}
+                >
                   <ul className="block lg:flex lg:space-x-12">
                     {menuData.map((menuItem, index) => (
                       <li key={menuItem.id} className="group relative">
                         {menuItem.path ? (
                           <Link
                             href={menuItem.path}
-                            className={`flex py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:py-6 lg:px-0`}>
+                            className={`flex py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:py-6 lg:px-0`}
+                          >
                             {menuItem.title}
                           </Link>
                         ) : (
                           <>
                             <a
                               onClick={() => handleSubmenu(index)}
-                              className="flex cursor-pointer items-center justify-between py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:py-6 lg:px-0">
+                              className="flex cursor-pointer items-center justify-between py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:py-6 lg:px-0"
+                            >
                               {menuItem.title}
                               <span className="pl-3">
                                 <svg width="15" height="14" viewBox="0 0 15 14">
@@ -124,12 +137,14 @@ const Header = () => {
                             <div
                               className={`submenu relative top-full left-0 rounded-md bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
                                 openIndex === index ? "block" : "hidden"
-                              }`}>
+                              }`}
+                            >
                               {menuItem.submenu.map((submenuItem) => (
                                 <Link
                                   href={submenuItem.path}
                                   key={submenuItem.id}
-                                  className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3">
+                                  className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3"
+                                >
                                   {submenuItem.title}
                                 </Link>
                               ))}
@@ -143,58 +158,89 @@ const Header = () => {
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
                 <Link
+                  href="/cart"
+                  className="hidden py-8 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
+                >
+                  <button
+                    type="button"
+                    class="relative inline-flex items-center rounded-full bg-gray p-3 text-center text-sm font-medium text-black focus:outline-none focus:ring-4"a
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      class="bi bi-cart"
+                      viewBox="0 0 16 16"
+                    >
+                      {" "}
+                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />{" "}
+                    </svg>
+                    <span class="sr-only">Notifications</span>
+                    <div class="dark:border-gray-900 absolute -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red text-xs font-bold text-white">
+                      {cartItem.length}
+                    </div>
+                  </button>
+                </Link>
+                <Link
                   href="/signin"
-                  className="hidden py-8 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block">
+                  className="hidden py-8 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
+                >
                   Sign In
                 </Link>
                 <Link
                   href="/signup"
-                  className="ease-in-up hidden rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9">
+                  className="ease-in-up hidden rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9"
+                >
                   Sign Up
                 </Link>
-                
                 <Link
-                  href={(localStorage.getItem("user"))? "/profile": "/signin"}
+                  href={localStorage.getItem("user") ? "/profile" : "/signin"}
                   className="m-5"
+                >
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    color="black"
+                    className=" text-black dark:text-white"
+                    width={30}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
                   >
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    color="black"
-                    className=" text-black dark:text-white"
-                    width={30}
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path>
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    ></path>
                   </svg>
                 </Link>
-                <div style={{display:(localStorage.getItem("user"))? "block": "none"}}>
-                <Link
-                  href="/signin"
-                  className="m-2">
-                  
-                  <svg
-                     onClick={()=>localStorage.clear()}
-                    fill="none"
-                    color="black"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    width={30}
-                    className=" text-black dark:text-white"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"></path>
-                  </svg>
-                </Link>
+                <div
+                  style={{
+                    display: localStorage.getItem("user") ? "block" : "none",
+                  }}
+                >
+                  <Link href="/signin" className="m-2">
+                    <svg
+                      onClick={() => localStorage.clear()}
+                      fill="none"
+                      color="black"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      width={30}
+                      className=" text-black dark:text-white"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+                      ></path>
+                    </svg>
+                  </Link>
                 </div>
                 <div>
                   <ThemeToggler />

@@ -3,8 +3,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import axios from "axios";
 import {ToastContainer, toast } from "react-toastify";
-// import { useNavigate } from "react-router-dom";
-// import { storeUser } from "../helpers";
 import { useRouter } from "next/navigation";
 import 'react-toastify/dist/ReactToastify.css';
 
