@@ -1,6 +1,84 @@
-import {atom} from "recoil";
+import { atom } from "recoil";
 
 export const cartState = atom({
-    key: "cartState",
-    default: []
+  key: "cartState",
+  default: [
+    {
+      id: 8,
+      attributes: {
+        title: "Shoes",
+        slug: "product-7",
+        description: "Men's and Women Shoes.",
+        price: "5000",
+        category: "Shoes",
+        size: "medium",
+        color: "red",
+        available: "5",
+        createdAt: "2023-07-06T07:50:34.898Z",
+        updatedAt: "2023-07-30T10:05:45.887Z",
+        publishedAt: "2023-07-06T07:50:35.665Z",
+        brandname: "Nike",
+        image: {
+          data: [
+            {
+              id: 4,
+              attributes: {
+                name: "photo-1542291026-7eec264c27ff.jpg",
+                alternativeText: null,
+                caption: null,
+                width: 1000,
+                height: 667,
+                formats: {
+                  small: {
+                    ext: ".jpg",
+                    url: "/uploads/small_photo_1542291026_7eec264c27ff_9760f940fa.jpg",
+                    hash: "small_photo_1542291026_7eec264c27ff_9760f940fa",
+                    mime: "image/jpeg",
+                    name: "small_photo-1542291026-7eec264c27ff.jpg",
+                    path: null,
+                    size: 16.36,
+                    width: 500,
+                    height: 334,
+                  },
+                  medium: {
+                    ext: ".jpg",
+                    url: "/uploads/medium_photo_1542291026_7eec264c27ff_9760f940fa.jpg",
+                    hash: "medium_photo_1542291026_7eec264c27ff_9760f940fa",
+                    mime: "image/jpeg",
+                    name: "medium_photo-1542291026-7eec264c27ff.jpg",
+                    path: null,
+                    size: 35.52,
+                    width: 750,
+                    height: 500,
+                  },
+                  thumbnail: {
+                    ext: ".jpg",
+                    url: "/uploads/thumbnail_photo_1542291026_7eec264c27ff_9760f940fa.jpg",
+                    hash: "thumbnail_photo_1542291026_7eec264c27ff_9760f940fa",
+                    mime: "image/jpeg",
+                    name: "thumbnail_photo-1542291026-7eec264c27ff.jpg",
+                    path: null,
+                    size: 4.56,
+                    width: 234,
+                    height: 156,
+                  },
+                },
+                hash: "photo_1542291026_7eec264c27ff_9760f940fa",
+                ext: ".jpg",
+                mime: "image/jpeg",
+                size: 62.6,
+                url: "/uploads/photo_1542291026_7eec264c27ff_9760f940fa.jpg",
+                previewUrl: null,
+                provider: "local",
+                provider_metadata: null,
+                createdAt: "2023-07-06T07:49:01.650Z",
+                updatedAt: "2023-07-06T07:50:23.806Z",
+              },
+            },
+          ],
+        },
+      },
+      quantity: 1,
+    },
+  ],
 });
