@@ -9,10 +9,8 @@ import { cartState } from "@/atoms/cartState";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
-   
   const router = useRouter();
-  const [cartItem]= useRecoilState(cartState)
-
+  const [cartItem] = useRecoilState(cartState);
 
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -54,28 +52,6 @@ const Header = () => {
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
-            {/* <div className="w-60 max-w-full px-4 xl:mr-12">
-              <Link
-                href="/"
-                className={`header-logo block w-full ${
-                  sticky ? "py-5 lg:py-2" : "py-8"
-                } `}>
-                <Image
-                  src="/images/logo/logo-2.svg"
-                  alt="logo"
-                  width={140}
-                  height={30}
-                  className="w-full dark:hidden"
-                />
-                <Image
-                  src="/images/logo/logo.svg"
-                  alt="logo"
-                  width={140}
-                  height={30}
-                  className="hidden w-full dark:block"
-                />
-              </Link>
-            </div> */}
             <div className="flex w-full items-center justify-between px-4">
               <div>
                 <button
@@ -163,34 +139,39 @@ const Header = () => {
                 >
                   <button
                     type="button"
-                    class="relative inline-flex items-center rounded-full bg-gray p-3 text-center text-sm font-medium text-black focus:outline-none focus:ring-4"a
+                    className="relative inline-flex items-center rounded-full bg-gray p-3 text-center text-sm font-medium text-black focus:outline-none focus:ring-4"
+                    a
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
                       fill="currentColor"
-                      class="bi bi-cart"
+                      className="bi bi-cart"
                       viewBox="0 0 16 16"
                     >
                       {" "}
                       <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />{" "}
                     </svg>
-                    <span class="sr-only">Notifications</span>
-                    <div class="dark:border-gray-900 absolute -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red text-xs font-bold text-white">
+                    <span className="sr-only">Notifications</span>
+                    <div className="dark:border-gray-900 absolute -top-2 -right-2 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red text-xs font-bold text-white">
                       {cartItem.length}
                     </div>
                   </button>
                 </Link>
                 <Link
                   href="/signin"
-                  className="hidden py-8 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
+                  className={` ${
+                    localStorage.getItem("user") ? "hidden" : "block"
+                  } py-8 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white`}
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/signup"
-                  className="ease-in-up hidden rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9"
+                  className={` ${
+                    localStorage.getItem("user") ? "hidden" : "block"
+                  } ease-in-up rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:px-9 lg:px-6 xl:px-9`}
                 >
                   Sign Up
                 </Link>

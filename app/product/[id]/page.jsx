@@ -5,63 +5,57 @@ import { useRecoilState } from "recoil";
 import { cartState } from "@/atoms/cartState";
 import toast from "react-hot-toast";
 
-
 const getproduct = async (id) => {
   const productsData = await fetch(
     `http://localhost:1337/api/products/${id}?populate=*`,
     { cache: "no-store" }
   );
   return productsData.json();
-}
+};
 
-export default function Slug (params) {
-
-
-
-
+export default function Slug(params) {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (params.params.id) {
       getproduct(params.params.id)
         .then((product) => {
-          setProduct(product.data)
+          setProduct(product.data);
           setIsLoading(true);
-        }) 
+        })
         .catch((error) => {
           console.log(error.message);
         });
     }
   }, []);
 
-  useEffect(() => {
-    console.log(product, "product");
-  }, [product]);
-
   // for cart
   const [cartItem, setCartItem] = useRecoilState(cartState);
 
+  useEffect(() => {
+    console.log(cartItem, "cartItem");
+  }, [cartItem]);
+
   const addItemsToCart = () => {
     if (cartItem.findIndex((pro) => pro.id === product.id) === -1) {
+      product["quantity"] = 1;
       setCartItem((prevState) => [...prevState, product]);
     } else {
       setCartItem((prevState) => {
         return prevState.map((item) => {
           return item.id === product.id
-            ? { ...item, quantity: (item.quantity >= 0) + 1 }
+            ? { ...item, quantity: item?.quantity ? item?.quantity + 1 : null }
             : item;
         });
       });
     }
-    console.log(product.name,"atettststsst");
+    console.log(product.name, "atettststsst");
     toast(`${product.attributes.title} added to cart`);
   };
 
   return (
     <>
       <section className="text-gray-600 body-font overflow-hidden">
-        {/* <h1>THis is slug Page {router.query.slug}</h1> */}
-        {/* <h1>{data.attributes.title}</h1> */}
         {isLoading && (
           <div className="container mx-auto px-5 py-24 ">
             <div className="mx-auto mt-10 flex flex-wrap lg:w-4/5">
@@ -246,6 +240,6 @@ export default function Slug (params) {
       </section>
     </>
   );
-};
+}
 
 // export default Slug;
